@@ -1,3 +1,4 @@
+// alumnas; croce candela y valentina del valle quintana
 const duracionPantalla = 6000;
 const duracionFinal = 8000;
 const duracionFundido = 800;
