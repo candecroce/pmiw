@@ -1,0 +1,74 @@
+const duracionPantalla = 6000;
+const imagenes = [];
+
+const pantallas = [
+  { archivo: "data/pantalla 1.jpeg", titulo: "LONDRES, 1890", texto: "Bajo la niebla y las luces de gas, Londres guarda un secreto." },
+  { archivo: "data/pantalla 2.jpeg", titulo: "LA CARTA MISTERIOSA", texto: "El doctor Jekyll encuentra una carta inquietante. El nombre de Hyde aparece en ella." },
+  { archivo: "data/pantalla 3.jpeg", titulo: "LA PUERTA CERRADA", texto: "En una calle oscura, una vieja puerta parece esconder algo terrible." },
+  { archivo: "data/pantalla 4.jpeg", titulo: "LA APARICIÓN DE HYDE", texto: "Una figura cruza la niebla. Su presencia basta para helar la noche." },
+  { archivo: "data/pantalla 5.jpeg", titulo: "UNA INVESTIGACIÓN COMIENZA", texto: "Jekyll revisa cada pista y descubre que Hyde está más cerca de lo que imaginaba." },
+  { archivo: "data/pantalla 6.jpeg", titulo: "LA PERSECUCIÓN", texto: "Un misterioso hombre se aleja por las calles vacías de Londres." },
+  { archivo: "data/pantalla 7.jpeg", titulo: "EL DOCTOR JEKYLL", texto: "Durante el día, el doctor intenta conservar la calma y continuar con su vida." },
+  { archivo: "data/pantalla 8.jpeg", titulo: "EL LABORATORIO", texto: "En su laboratorio, Jekyll prepara un experimento que podría cambiarlo todo." },
+  { archivo: "data/pantalla 9.jpeg", titulo: "EL EXPERIMENTO", texto: "Convencido de que puede separar sus impulsos, Jekyll toma la pócima." },
+  { archivo: "data/pantalla 10.jpeg", titulo: "LA HUIDA", texto: "Hyde huye por las calles mientras la niebla lo oculta de sus perseguidores." },
+  { archivo: "data/pantalla 11.jpeg", titulo: "EL DOMINIO DE HYDE", texto: "La criatura regresa. Cada vez parece más fuerte y difícil de controlar." },
+  { archivo: "data/pantalla 12.jpeg", titulo: "DOS SOMBRAS", texto: "Detrás del vidrio, Jekyll lucha por resistir a la otra presencia." },
+  { archivo: "data/pantalla 13.jpeg", titulo: "FRENTE AL ESPEJO", texto: "Jekyll mira su reflejo, pero ya no está seguro de quién lo observa." },
+  { archivo: "data/pantalla 14.jpeg", titulo: "LA TRANSFORMACIÓN", texto: "La transformación se completa. Hyde ha tomado el control." },
+  { archivo: "data/pantalla 15.jpeg", titulo: "EL AMANECER", texto: "Amanece sobre Londres. El secreto del doctor queda entre sus calles." }
+];
+
+function preload() {
+  for (let i = 0; i < pantallas.length; i++) {
+    imagenes[i] = loadImage(
+      pantallas[i].archivo,
+      () => {},
+      (error) => console.error("No se pudo cargar " + pantallas[i].archivo, error)
+    );
+  }
+}
+
+function setup() {
+  createCanvas(800, 450);
+  textFont("Georgia");
+}
+
+function draw() {
+  background(0);
+
+  const indice = min(floor(millis() / duracionPantalla), pantallas.length - 1);
+  dibujarImagen(imagenes[indice]);
+  mostrarTexto(pantallas[indice].titulo, pantallas[indice].texto, indice + 1);
+}
+
+function dibujarImagen(img) {
+  if (!img || img.width === 0 || img.height === 0) return;
+
+  const escala = max(width / img.width, height / img.height);
+  const anchoRecorte = width / escala;
+  const altoRecorte = height / escala;
+  const xRecorte = (img.width - anchoRecorte) / 2;
+  const yRecorte = (img.height - altoRecorte) / 2;
+
+  image(img, 0, 0, width, height, xRecorte, yRecorte, anchoRecorte, altoRecorte);
+}
+
+function mostrarTexto(titulo, texto, numero) {
+  noStroke();
+  fill(0, 0, 0, 190);
+  rect(0, height - 105, width, 105);
+
+  fill(230, 190, 115);
+  textAlign(RIGHT, TOP);
+  textSize(14);
+  text(numero + " / 15", width - 24, height - 90);
+
+  fill(255);
+  textAlign(LEFT, TOP);
+  textSize(20);
+  text(titulo, 28, height - 88, width - 100, 28);
+
+  textSize(16);
+  text(texto, 28, height - 55, width - 56, 45);
+}
